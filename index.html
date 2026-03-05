@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVPremium — Currículos Profissionais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; }
+
+        /* NAVBAR */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(10,10,10,0.95);
+            border-bottom: 1px solid #222;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-size: 24px; font-weight: 800; }
+        .logo span { color: #c9a96e; }
+        .nav-links a { color: #aaa; text-decoration: none; margin-left: 30px; font-size: 14px; }
+        .nav-links a:hover { color: #fff; }
+        .btn-nav {
+            background: #c9a96e;
+            color: #000 !important;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-left: 30px;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+        }
+        .hero-badge {
+            background: rgba(201,169,110,0.15);
+            border: 1px solid #c9a96e;
+            color: #c9a96e;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            max-width: 800px;
+        }
+        .hero h1 span { color: #c9a96e; }
+        .hero p {
+            font-size: 18px;
+            color: #aaa;
+            margin-bottom: 40px;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        .btn-hero {
+            background: #c9a96e;
+            color: #000;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-hero:hover { background: #b8935a; transform: translateY(-2px); }
+        .hero-sub {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        /* STATS */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 60px 20px;
+            background: #111;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+        .stat { text-align: center; }
+        .stat-number { font-size: 36px; font-weight: 800; color: #c9a96e; }
+        .stat-label { font-size: 13px; color: #666; margin-top: 4px; }
+
+        /* TEMPLATES */
+        .section {
+            padding: 80px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .section-sub {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 15px;
+        }
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .template-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .template-card:hover {
+            border-color: #c9a96e;
+            transform: translateY(-4px);
+        }
+        .template-preview {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+        .t1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+        .t2 { background: linear-gradient(135deg, #1a0a0a, #2e1a1a); }
+        .t3 { background: linear-gradient(135deg, #0a1a0a, #1a2e1a); }
+        .t4 { background: linear-gradient(135deg, #1a1a0a, #2e2e1a); }
+        .t5 { background: linear-gradient(135deg, #0a1a1a, #1a2e2e); }
+        .t6 { background: linear-gradient(135deg, #1a0a1a, #2e1a2e); }
+        .template-info { padding: 16px; }
+        .template-name { font-weight: 600; font-size: 15px; }
+        .template-cat { font-size: 12px; color: #666; margin-top: 4px; }
+        .template-badge {
+            display: inline-block;
+            background: rgba(201,169,110,0.15);
+            color: #c9a96e;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 50px;
+            margin-top: 8px;
+        }
+
+        /* PRICING */
+        .pricing {
+            padding: 80px 20px;
+            background: #111;
+            text-align: center;
+        }
+        .price-card {
+            display: inline-block;
+            background: #0a0a0a;
+            border: 1px solid #c9a96e;
+            border-radius: 16px;
+            padding: 50px 60px;
+            margin-top: 40px;
+        }
+        .price-amount { font-size: 56px; font-weight: 800; color: #c9a96e; }
+        .price-amount span { font-size: 24px; }
+        .price-desc { color: #666; margin: 12px 0 30px; }
+        .price-features { list-style: none; text-align: left; margin-bottom: 30px; }
+        .price-features li { padding: 8px 0; color: #aaa; font-size: 14px; }
+        .price-features li::before { content: '✓ '; color: #c9a96e; font-weight: 700; }
+        .btn-price {
+            background: #c9a96e;
+            color: #000;
+            padding: 14px 40px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 40px 60px;
+            background: #000;
+            border-top: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #444;
+            font-size: 13px;
+        }
+        .footer-logo { font-size: 18px; font-weight: 700; }
+        .footer-logo span { color: #c9a96e; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">CV<span>Premium</span></div>
+        <div class="nav-links">
+            <a href="#templates">Modelos</a>
+            <a href="#pricing">Preços</a>
+            <a href="form.html" class="btn-nav">Criar CV Grátis</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">✦ MAIS DE 100 MODELOS PREMIUM</div>
+        <h1>O teu currículo<br><span>que abre portas</span></h1>
+        <p>Cria um currículo profissional em minutos. Visualiza grátis, descarrega por apenas $1.99.</p>
+        <a href="form.html" class="btn-hero">Criar o meu CV — É Grátis</a>
+        <p class="hero-sub">Sem registo obrigatório · Visualização gratuita · Download por $1.99</p>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-number">100+</div>
+            <div class="stat-label">Modelos Premium</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">$1.99</div>
+            <div class="stat-label">Por Download</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">5min</div>
+            <div class="stat-label">Para Criar o teu CV</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Profissional</div>
+        </div>
+    </div>
+
+    <!-- TEMPLATES -->
+    <div class="section" id="templates">
+        <h2 class="section-title">Escolhe o teu modelo</h2>
+        <p class="section-sub">Modelos criados por designers profissionais para cada sector</p>
+        <div class="templates-grid">
+            <div class="template-card">
+                <div class="template-preview t1">💼</div>
+                <div class="template-info">
+                    <div class="template-name">Executive Classic</div>
+                    <div class="template-cat">Executivo · Wall Street</div>
+                    <span class="template-badge">PREMIUM</span>
+                </div>
+            </div>
+            <div class="template-card">
+                <div class="template-preview t2">🎨</div>
+                <div class="template-info">
+                    <div class="template-name">Creative Modern</div>
+                    <div class="template-cat">Criativo · Design</div>
+                    <span class="template-badge">PREMIUM</span>
+                </div>
+            </div>
+            <div class="template-card">
+                <div class="template-preview t3">💻</div>
+                <div class="template-info">
+                    <div class="template-name">Tech Minimal</div>
+                    <div class="template-cat">Tecnologia · Startups</div>
+                    <span class="template-badge">PREMIUM</span>
+                </div>
+            </div>
+            <div class="template-card">
+                <div class="template-preview t4">🏦</div>
+                <div class="template-info">
+                    <div class="template-name">Finance Pro</div>
+                    <div class="template-cat">Finanças · Big Four</div>
+                    <span class="template-badge">PREMIUM</span>
+                </div>
+            </div>
+            <div class="template-card">
+                <div class="template-preview t5">⚕️</div>
+                <div class="template-info">
+                    <div class="template-name">Medical Elite</div>
+                    <div class="template-cat">Saúde · Medicina</div>
+                    <span class="template-badge">PREMIUM</span>
+                </div>
+            </div>
+            <div class="template-card">
+                <div class="template-preview t6">⚖️</div>
+                <div class="template-info">
+                    <div class="template-name">Legal Expert</div>
+                    <div class="template-cat">Direito · Consultoria</div>
+                    <span class="template-badge">PREMIUM</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="pricing" id="pricing">
+        <h2 class="section-title">Simples e transparente</h2>
+        <p class="section-sub">Sem subscrições. Paga apenas quando quiseres descarregar.</p>
+        <div class="price-card">
+            <div class="price-amount"><span>$</span>1.99</div>
+            <p class="price-desc">por currículo descarregado</p>
+            <ul class="price-features">
+                <li>Acesso a todos os 100+ modelos</li>
+                <li>Visualização gratuita e ilimitada</li>
+                <li>Download em PDF de alta qualidade</li>
+                <li>Edição ilimitada antes de pagar</li>
+                <li>Pagamento seguro via PayPal</li>
+            </ul>
+            <a href="form.html" class="btn-price">Criar o meu CV Agora</a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">CV<span>Premium</span></div>
+        <div>© 2026 CVPremium. Todos os direitos reservados.</div>
+    </footer>
+
+</body>
+</html>

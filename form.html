@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar CV - CVPremium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; background: rgba(10,10,10,0.95); border-bottom: 1px solid #222; position: fixed; width: 100%; top: 0; z-index: 100; }
+        .logo { font-size: 24px; font-weight: 800; text-decoration: none; color: #fff; }
+        .logo span { color: #c9a96e; }
+        .container { max-width: 900px; margin: 0 auto; padding: 120px 20px 60px; }
+        .page-title { text-align: center; font-size: 36px; font-weight: 800; margin-bottom: 8px; }
+        .page-title span { color: #c9a96e; }
+        .page-sub { text-align: center; color: #666; margin-bottom: 50px; font-size: 15px; }
+        .form-section { background: #111; border: 1px solid #222; border-radius: 16px; padding: 40px; margin-bottom: 24px; }
+        .form-section h3 { font-size: 18px; font-weight: 700; margin-bottom: 24px; color: #c9a96e; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .form-row.full { grid-template-columns: 1fr; }
+        .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 13px; color: #aaa; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 12px 16px; color: #fff; font-size: 14px; font-family: 'Inter', sans-serif; outline: none; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #c9a96e; }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-group select option { background: #1a1a1a; }
+        .item-card { background: #1a1a1a; border: 1px solid #333; border-radius: 10px; padding: 20px; margin-bottom: 16px; position: relative; }
+        .btn-remove { position: absolute; top: 16px; right: 16px; background: rgba(255,50,50,0.15); color: #ff5555; border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 12px; }
+        .btn-add { background: rgba(201,169,110,0.1); border: 1px dashed #c9a96e; color: #c9a96e; border-radius: 8px; padding: 12px; width: 100%; cursor: pointer; font-size: 14px; font-family: 'Inter', sans-serif; margin-top: 8px; }
+        .skills-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .skill-tag { background: rgba(201,169,110,0.15); border: 1px solid #c9a96e; color: #c9a96e; padding: 6px 14px; border-radius: 50px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+        .skill-tag button { background: none; border: none; color: #c9a96e; cursor: pointer; font-size: 16px; }
+        .skills-input-row { display: flex; gap: 10px; }
+        .skills-input-row input { flex: 1; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 10px 16px; color: #fff; font-size: 14px; outline: none; }
+        .btn-add-skill { background: #c9a96e; color: #000; border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .photo-upload { display: flex; align-items: center; gap: 20px; }
+        .photo-preview { width: 80px; height: 80px; border-radius: 50%; background: #1a1a1a; border: 2px dashed #333; display: flex; align-items: center; justify-content: center; font-size: 28px; overflow: hidden; flex-shrink: 0; }
+        .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-upload { background: rgba(201,169,110,0.1); border: 1px solid #c9a96e; color: #c9a96e; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .submit-section { text-align: center; padding: 40px 0; }
+        .btn-generate { background: #c9a96e; color: #000; border: none; padding: 18px 60px; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; }
+        .submit-note { color: #555; font-size: 13px; margin-top: 12px; }
+
+        /* TABS */
+        .tab-row { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+        .tab-btn { background: #1a1a1a; border: 1px solid #333; color: #666; padding: 10px 22px; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 600; transition: all 0.2s; }
+        .tab-btn.active { background: #c9a96e; color: #000; border-color: #c9a96e; }
+        .tab-btn:hover:not(.active) { border-color: #c9a96e; color: #c9a96e; }
+
+        /* TEMPLATES GRID */
+        .templates-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .tmpl { border: 2px solid #222; border-radius: 10px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+        .tmpl:hover, .tmpl.selected { border-color: #c9a96e; transform: translateY(-2px); }
+        .tmpl-preview { height: 110px; display: flex; align-items: center; justify-content: center; }
+        .tmpl-name { background: #1a1a1a; padding: 10px; font-size: 11px; text-align: center; color: #666; font-weight: 600; letter-spacing: 0.5px; }
+        .tmpl.selected .tmpl-name { color: #c9a96e; }
+        .ats-badge { background: #22c55e; color: #000; font-size: 9px; padding: 2px 6px; border-radius: 3px; font-weight: 700; margin-left: 4px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">CV<span>Premium</span></a>
+        <div style="display:flex;align-items:center;gap:14px">
+            <a href="free.html" style="color:#666;font-size:13px;text-decoration:none;border:1px solid #2a2a2a;padding:7px 14px;border-radius:7px">CV Grátis</a>
+            <span style="color:#555;font-size:13px">Premium · $1.99</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Cria o teu <span>CV Premium</span></h1>
+        <p class="page-sub">Preenche os campos abaixo e gera o teu currículo profissional</p>
+
+        <!-- DADOS PESSOAIS -->
+        <div class="form-section">
+            <h3>Dados Pessoais</h3>
+            <div class="form-row">
+                <div class="form-group"><label>Nome Completo *</label><input type="text" id="fullName" placeholder="Ex: João Silva"></div>
+                <div class="form-group"><label>Título Profissional *</label><input type="text" id="jobTitle" placeholder="Ex: Gestor Financeiro Sénior"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Email *</label><input type="email" id="email" placeholder="joao@email.com"></div>
+                <div class="form-group"><label>Telefone</label><input type="text" id="phone" placeholder="+244 900 000 000"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Localização</label><input type="text" id="address" placeholder="Ex: Luanda, Angola"></div>
+                <div class="form-group"><label>LinkedIn</label><input type="text" id="linkedin" placeholder="linkedin.com/in/joaosilva"></div>
+            </div>
+            <div class="form-row full">
+                <div class="form-group"><label>Resumo Profissional *</label><textarea id="summary" placeholder="Escreve um resumo sobre ti..."></textarea></div>
+            </div>
+            <div class="form-row full">
+                <div class="form-group">
+                    <label>Foto de Perfil <span style="color:#555;font-size:11px">(apenas para templates com foto)</span></label>
+                    <div class="photo-upload">
+                        <div class="photo-preview" id="photoPreview">📷</div>
+                        <div>
+                            <input type="file" id="photoInput" accept="image/*" style="display:none">
+                            <button class="btn-upload" onclick="document.getElementById('photoInput').click()">Carregar Foto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXPERIÊNCIA -->
+        <div class="form-section">
+            <h3>Experiência Profissional</h3>
+            <div id="experienceContainer">
+                <div class="item-card" id="exp-0">
+                    <button class="btn-remove" onclick="removeItem('exp-0')">Remover</button>
+                    <div class="form-row">
+                        <div class="form-group"><label>Cargo *</label><input type="text" placeholder="Ex: Director Financeiro"></div>
+                        <div class="form-group"><label>Empresa *</label><input type="text" placeholder="Ex: Deloitte Angola"></div>
+                    </div>
+                    <div class="form-row three">
+                        <div class="form-group"><label>Data Início</label><input type="text" placeholder="Jan 2020"></div>
+                        <div class="form-group"><label>Data Fim</label><input type="text" placeholder="Presente"></div>
+                        <div class="form-group"><label>Localização</label><input type="text" placeholder="Luanda, Angola"></div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group"><label>Descrição</label><textarea placeholder="Descreve as tuas funções e realizações..."></textarea></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-add" onclick="addExperience()">+ Adicionar Experiência</button>
+        </div>
+
+        <!-- FORMAÇÃO -->
+        <div class="form-section">
+            <h3>Formação Académica</h3>
+            <div id="educationContainer">
+                <div class="item-card" id="edu-0">
+                    <button class="btn-remove" onclick="removeItem('edu-0')">Remover</button>
+                    <div class="form-row">
+                        <div class="form-group"><label>Grau / Curso *</label><input type="text" placeholder="Ex: MBA Finanças"></div>
+                        <div class="form-group"><label>Instituição *</label><input type="text" placeholder="Ex: Universidade Católica"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Ano de Conclusão</label><input type="text" placeholder="2018"></div>
+                        <div class="form-group"><label>Classificação</label><input type="text" placeholder="Ex: 18 valores"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-add" onclick="addEducation()">+ Adicionar Formação</button>
+        </div>
+
+        <!-- COMPETÊNCIAS -->
+        <div class="form-section">
+            <h3>Competências</h3>
+            <div class="skills-container" id="skillsContainer"></div>
+            <div class="skills-input-row">
+                <input type="text" id="skillInput" placeholder="Ex: Excel, Power BI, Liderança..." onkeydown="if(event.key==='Enter')addSkill()">
+                <button class="btn-add-skill" onclick="addSkill()">+ Adicionar</button>
+            </div>
+        </div>
+
+        <!-- IDIOMAS -->
+        <div class="form-section">
+            <h3>Idiomas</h3>
+            <div id="languagesContainer">
+                <div class="form-row" id="lang-0">
+                    <div class="form-group"><label>Idioma</label><input type="text" placeholder="Ex: Português"></div>
+                    <div class="form-group"><label>Nível</label>
+                        <select><option>Nativo</option><option>Fluente</option><option>Avançado</option><option>Intermédio</option><option>Básico</option></select>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-add" onclick="addLanguage()">+ Adicionar Idioma</button>
+        </div>
+
+        <!-- TEMPLATES -->
+        <div class="form-section">
+            <h3>Escolhe o Modelo</h3>
+            <div class="tab-row">
+                <button class="tab-btn active" id="tab-foto" onclick="switchTab('foto')">📷 Com Foto</button>
+                <button class="tab-btn" id="tab-semfoto" onclick="switchTab('semfoto')">✦ Sem Foto</button>
+                <button class="tab-btn" id="tab-ats" onclick="switchTab('ats')">🤖 ATS / Recrutadores</button>
+            </div>
+
+            <!-- COM FOTO -->
+            <div id="group-foto">
+                <div class="templates-scroll">
+                    <div class="tmpl selected" onclick="selectTemplate(this,1)">
+                        <div class="tmpl-preview" style="background:linear-gradient(135deg,#1a1a2e,#0f3460)">
+                            <div style="display:flex;gap:8px;align-items:center"><div style="width:28px;height:28px;border-radius:50%;background:#c9a96e;opacity:0.8;border:2px solid #c9a96e"></div><div><div style="width:55px;height:7px;background:#fff;opacity:0.7;border-radius:1px;margin-bottom:5px"></div><div style="width:38px;height:3px;background:#c9a96e;border-radius:2px"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Executive Classic</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,2)">
+                        <div class="tmpl-preview" style="background:linear-gradient(135deg,#2e1a1a,#1a0a0a)">
+                            <div style="display:flex;gap:8px;align-items:center"><div style="width:28px;height:28px;border-radius:6px;background:#c9a96e;opacity:0.8"></div><div><div style="width:55px;height:7px;background:#fff;opacity:0.7;border-radius:1px;margin-bottom:5px"></div><div style="width:38px;height:3px;background:#c9a96e;border-radius:2px"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Creative Modern</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,3)">
+                        <div class="tmpl-preview" style="background:#f0f0f0;border:1px solid #ddd">
+                            <div style="display:flex;gap:8px;align-items:center"><div style="width:28px;height:28px;border-radius:4px;background:#2d8a2d;opacity:0.8"></div><div><div style="width:55px;height:7px;background:#333;opacity:0.5;border-radius:1px;margin-bottom:5px"></div><div style="width:38px;height:3px;background:#2d8a2d;border-radius:2px"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Tech Minimal</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,4)">
+                        <div class="tmpl-preview" style="background:#fff;border:1px solid #e0d8c0;border-top:4px solid #c9a96e">
+                            <div style="display:flex;gap:8px;align-items:center"><div style="width:28px;height:28px;border-radius:50%;background:#c9a96e;opacity:0.7;border:2px solid #c9a96e"></div><div><div style="width:55px;height:8px;background:#1a1a0a;opacity:0.7;border-radius:1px;margin-bottom:5px"></div><div style="width:38px;height:3px;background:#c9a96e;border-radius:2px"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Finance Pro</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,5)">
+                        <div class="tmpl-preview" style="background:linear-gradient(135deg,#0a1a1a,#1a2e2e)">
+                            <div style="display:flex;gap:8px;align-items:center"><div style="width:28px;height:28px;border-radius:50%;background:#4ecdc4;opacity:0.8;border:2px solid #4ecdc4"></div><div><div style="width:55px;height:7px;background:#fff;opacity:0.7;border-radius:1px;margin-bottom:5px"></div><div style="width:38px;height:3px;background:#4ecdc4;border-radius:2px"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Medical Elite</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,6)">
+                        <div class="tmpl-preview" style="background:#1a0a1a">
+                            <div style="display:flex;gap:8px;align-items:center"><div style="width:28px;height:28px;background:#c9a96e;opacity:0.8"></div><div><div style="width:55px;height:8px;background:#fff;opacity:0.6;border-radius:1px;margin-bottom:5px"></div><div style="width:38px;height:3px;background:#c9a96e;border-radius:2px"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Legal Expert</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEM FOTO -->
+            <div id="group-semfoto" style="display:none">
+                <div class="templates-scroll">
+                    <div class="tmpl" onclick="selectTemplate(this,7)">
+                        <div class="tmpl-preview" style="background:#fff;border:1px solid #ddd">
+                            <div style="text-align:center"><div style="width:90px;height:8px;background:#1a1a2e;border-radius:1px;margin:0 auto 6px;opacity:0.8"></div><div style="width:55px;height:3px;background:#c9a96e;border-radius:2px;margin:0 auto 8px"></div><div style="width:100px;height:1px;background:#c9a96e;margin:0 auto"></div></div>
+                        </div>
+                        <div class="tmpl-name">Executive Minimalista</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,8)">
+                        <div class="tmpl-preview" style="background:#fafafa;border:1px solid #ddd">
+                            <div style="display:flex;gap:8px;height:70px;align-items:stretch;padding:8px"><div style="flex:1;display:flex;flex-direction:column;gap:5px;justify-content:center"><div style="height:6px;background:#1a1a2e;border-radius:1px"></div><div style="height:3px;background:#c9a96e;border-radius:2px;width:70%"></div><div style="height:2px;background:#ddd;border-radius:2px;margin-top:4px"></div><div style="height:2px;background:#ddd;border-radius:2px;width:80%"></div></div><div style="width:1px;background:#ddd"></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;justify-content:center;padding-left:8px"><div style="height:3px;background:#ddd;border-radius:2px"></div><div style="height:3px;background:#ddd;border-radius:2px;width:80%"></div><div style="height:3px;background:#ddd;border-radius:2px;width:60%"></div><div style="height:3px;background:#ddd;border-radius:2px;width:70%"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Two Columns Pro</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,9)">
+                        <div class="tmpl-preview" style="background:#fff;border:1px solid #ddd">
+                            <div style="padding:8px 14px"><div style="width:75px;height:6px;background:#1a1a2e;border-radius:1px;margin-bottom:12px"></div><div style="display:flex;gap:8px;align-items:flex-start"><div style="display:flex;flex-direction:column;align-items:center;gap:0"><div style="width:9px;height:9px;border-radius:50%;background:#c9a96e"></div><div style="width:1px;height:16px;background:#c9a96e;opacity:0.4"></div><div style="width:9px;height:9px;border-radius:50%;background:#c9a96e"></div><div style="width:1px;height:10px;background:#c9a96e;opacity:0.4"></div><div style="width:9px;height:9px;border-radius:50%;background:#c9a96e"></div></div><div style="display:flex;flex-direction:column;gap:9px"><div style="height:4px;background:#ddd;border-radius:2px;width:65px"></div><div style="height:4px;background:#ddd;border-radius:2px;width:65px"></div><div style="height:4px;background:#ddd;border-radius:2px;width:65px"></div></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Timeline Classic</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,10)">
+                        <div class="tmpl-preview" style="background:linear-gradient(135deg,#1a1a2e,#0f3460)">
+                            <div style="text-align:center"><div style="width:90px;height:9px;background:#fff;border-radius:1px;margin:0 auto 6px;opacity:0.9"></div><div style="width:55px;height:3px;background:#c9a96e;border-radius:2px;margin:0 auto 10px"></div><div style="display:flex;justify-content:center;gap:8px"><div style="width:25px;height:2px;background:rgba(255,255,255,0.3);border-radius:1px"></div><div style="width:6px;height:6px;border-radius:50%;background:#c9a96e;margin-top:-2px"></div><div style="width:25px;height:2px;background:rgba(255,255,255,0.3);border-radius:1px"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Bold Header Dark</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,11)">
+                        <div class="tmpl-preview" style="background:#f8f8f8;border-left:4px solid #c9a96e">
+                            <div style="padding:0 12px"><div style="width:75px;height:7px;background:#1a1a0a;border-radius:1px;margin-bottom:6px;opacity:0.8"></div><div style="width:50px;height:3px;background:#c9a96e;border-radius:2px;margin-bottom:12px"></div><div style="display:flex;gap:10px;align-items:center;margin-bottom:5px"><div style="width:55px;height:3px;background:#c9a96e;border-radius:2px;opacity:0.4"></div><div style="height:3px;background:#ddd;border-radius:2px;flex:1"></div></div><div style="display:flex;gap:10px;align-items:center"><div style="width:55px;height:3px;background:#c9a96e;border-radius:2px;opacity:0.4"></div><div style="height:3px;background:#ddd;border-radius:2px;flex:1;width:80%"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Finance Clean</div>
+                    </div>
+                    <div class="tmpl" onclick="selectTemplate(this,12)">
+                        <div class="tmpl-preview" style="background:#fff;border-top:5px solid #1a0a1a">
+                            <div style="text-align:center;padding-top:10px"><div style="width:90px;height:8px;background:#1a0a1a;border-radius:1px;margin:0 auto 6px;opacity:0.8"></div><div style="width:45px;height:2px;background:#c9a96e;margin:0 auto 10px"></div><div style="display:flex;justify-content:center;gap:5px"><div style="width:22px;height:2px;background:#ddd;border-radius:1px"></div><div style="width:22px;height:2px;background:#ddd;border-radius:1px"></div><div style="width:22px;height:2px;background:#ddd;border-radius:1px"></div></div></div>
+                        </div>
+                        <div class="tmpl-name">Legal Prestige</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATS -->
+            <div id="group-ats" style="display:none">
+                <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.3);border-radius:10px;padding:16px;margin-bottom:20px">
+                    <div style="color:#22c55e;font-size:13px;font-weight:700;margin-bottom:6px">🤖 O que é ATS?</div>
+                    <div style="color:#aaa;font-size:12px;line-height:1.7">ATS (Applicant Tracking System) é o software usado por empresas como Goldman Sachs, McKinsey, Deloitte e PwC para filtrar CVs automaticamente. Um CV ATS-optimizado usa formatação simples, sem colunas complexas, para garantir que o teu perfil passa o filtro e chega aos recrutadores.</div>
+                </div>
+                <div class="templates-scroll">
+                    <div class="tmpl" onclick="selectTemplate(this,13)">
+                        <div class="tmpl-preview" style="background:#fff;border:1px solid #ddd">
+                            <div style="padding:10px 14px"><div style="width:85px;height:7px;background:#111;border-radius:1px;margin-bottom:4px;opacity:0.8"></div><div style="width:60px;height:3px;background:#888;border-radius:2px;margin-bottom:8px"></div><div style="height:1px;background:#ccc;margin-bottom:6px"></div><div style="width:50px;height:4px;background:#111;border-radius:1px;margin-bottom:4px;opacity:0.7"></div><div style="height:2px;background:#ddd;margin-bottom:3px;border-radius:1px"></div><div style="height:2px;background:#ddd;border-radius:1px;width:85%"></div></div>
+                        </div>
+                        <div class="tmpl-name">ATS Pro <span class="ats-badge">ATS</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÃO GERAR -->
+        <div class="submit-section">
+            <button class="btn-generate" onclick="generateCV()">Gerar o meu CV Premium</button>
+            <p class="submit-note">Visualização gratuita · Download por $1.99</p>
+        </div>
+    </div>
+
+    <script>
+        var skills = [];
+        var expCount = 1;
+        var eduCount = 1;
+        var langCount = 1;
+
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(ev) {
+                    document.getElementById('photoPreview').innerHTML = '<img src="' + ev.target.result + '">';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function switchTab(tab) {
+            document.getElementById('group-foto').style.display = tab === 'foto' ? 'block' : 'none';
+            document.getElementById('group-semfoto').style.display = tab === 'semfoto' ? 'block' : 'none';
+            document.getElementById('group-ats').style.display = tab === 'ats' ? 'block' : 'none';
+            document.getElementById('tab-foto').classList.toggle('active', tab === 'foto');
+            document.getElementById('tab-semfoto').classList.toggle('active', tab === 'semfoto');
+            document.getElementById('tab-ats').classList.toggle('active', tab === 'ats');
+        }
+
+        function selectTemplate(el, id) {
+            var all = document.querySelectorAll('.tmpl');
+            for (var i = 0; i < all.length; i++) all[i].classList.remove('selected');
+            el.classList.add('selected');
+            document.getElementById('selectedTemplate').value = id;
+        }
+
+        function addExperience() {
+            var id = 'exp-' + expCount++;
+            var html = '<div class="item-card" id="' + id + '">' +
+                '<button class="btn-remove" onclick="removeItem(\'' + id + '\')">Remover</button>' +
+                '<div class="form-row"><div class="form-group"><label>Cargo</label><input type="text" placeholder="Cargo"></div>' +
+                '<div class="form-group"><label>Empresa</label><input type="text" placeholder="Empresa"></div></div>' +
+                '<div class="form-row three"><div class="form-group"><label>Início</label><input type="text" placeholder="Jan 2020"></div>' +
+                '<div class="form-group"><label>Fim</label><input type="text" placeholder="Presente"></div>' +
+                '<div class="form-group"><label>Local</label><input type="text" placeholder="Luanda"></div></div>' +
+                '<div class="form-row full"><div class="form-group"><label>Descrição</label><textarea placeholder="Descrição..."></textarea></div></div></div>';
+            document.getElementById('experienceContainer').insertAdjacentHTML('beforeend', html);
+        }
+
+        function addEducation() {
+            var id = 'edu-' + eduCount++;
+            var html = '<div class="item-card" id="' + id + '">' +
+                '<button class="btn-remove" onclick="removeItem(\'' + id + '\')">Remover</button>' +
+                '<div class="form-row"><div class="form-group"><label>Curso</label><input type="text" placeholder="Licenciatura"></div>' +
+                '<div class="form-group"><label>Instituição</label><input type="text" placeholder="UCAN"></div></div>' +
+                '<div class="form-row"><div class="form-group"><label>Ano</label><input type="text" placeholder="2015"></div>' +
+                '<div class="form-group"><label>Classificação</label><input type="text" placeholder="Muito Bom"></div></div></div>';
+            document.getElementById('educationContainer').insertAdjacentHTML('beforeend', html);
+        }
+
+        function removeItem(id) {
+            var el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function addSkill() {
+            var input = document.getElementById('skillInput');
+            var skill = input.value.trim();
+            if (!skill) return;
+            skills.push(skill);
+            renderSkills();
+            input.value = '';
+        }
+
+        function removeSkill(i) {
+            skills.splice(i, 1);
+            renderSkills();
+        }
+
+        function renderSkills() {
+            var c = document.getElementById('skillsContainer');
+            var html = '';
+            for (var i = 0; i < skills.length; i++) {
+                html += '<div class="skill-tag">' + skills[i] + '<button onclick="removeSkill(' + i + ')">×</button></div>';
+            }
+            c.innerHTML = html;
+        }
+
+        function addLanguage() {
+            var id = 'lang-' + langCount++;
+            var html = '<div class="form-row" id="' + id + '" style="margin-top:12px">' +
+                '<div class="form-group"><input type="text" placeholder="Ex: Inglês"></div>' +
+                '<div class="form-group"><select><option>Nativo</option><option>Fluente</option><option>Avançado</option><option>Intermédio</option><option>Básico</option></select></div></div>';
+            document.getElementById('languagesContainer').insertAdjacentHTML('beforeend', html);
+        }
+
+        function generateCV() {
+            var fullName = document.getElementById('fullName').value.trim();
+            if (!fullName) { alert('Por favor preenche o teu nome completo!'); return; }
+
+            var expCards = document.querySelectorAll('[id^="exp-"]');
+            var experience = [];
+            expCards.forEach(function(card) {
+                var inputs = card.querySelectorAll('input');
+                var textarea = card.querySelector('textarea');
+                if (inputs[0] && inputs[0].value.trim()) {
+                    experience.push({
+                        title: inputs[0].value,
+                        company: inputs[1] ? inputs[1].value : '',
+                        start: inputs[2] ? inputs[2].value : '',
+                        end: inputs[3] ? inputs[3].value : '',
+                        location: inputs[4] ? inputs[4].value : '',
+                        description: textarea ? textarea.value : ''
+                    });
+                }
+            });
+
+            var eduCards = document.querySelectorAll('[id^="edu-"]');
+            var education = [];
+            eduCards.forEach(function(card) {
+                var inputs = card.querySelectorAll('input');
+                if (inputs[0] && inputs[0].value.trim()) {
+                    education.push({
+                        degree: inputs[0].value,
+                        school: inputs[1] ? inputs[1].value : '',
+                        year: inputs[2] ? inputs[2].value : '',
+                        grade: inputs[3] ? inputs[3].value : ''
+                    });
+                }
+            });
+
+            var langRows = document.querySelectorAll('[id^="lang-"]');
+            var languages = [];
+            langRows.forEach(function(row) {
+                var input = row.querySelector('input');
+                var select = row.querySelector('select');
+                if (input && input.value.trim()) {
+                    languages.push({ name: input.value, level: select ? select.value : '' });
+                }
+            });
+
+            var photoEl = document.getElementById('photoPreview').querySelector('img');
+            var photo = photoEl ? photoEl.src : null;
+
+            var tmplVal = document.getElementById('selectedTemplate').value;
+
+            var cvData = {
+                fullName: fullName,
+                jobTitle: document.getElementById('jobTitle').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                linkedin: document.getElementById('linkedin').value,
+                summary: document.getElementById('summary').value,
+                experience: experience,
+                education: education,
+                skills: skills,
+                languages: languages,
+                photo: photo,
+                template: tmplVal
+            };
+
+            sessionStorage.setItem('cvData', JSON.stringify(cvData));
+            window.location.href = 'preview.html';
+        }
+    </script>
+    <input type="hidden" id="selectedTemplate" value="1">
+</body>
+</html>
