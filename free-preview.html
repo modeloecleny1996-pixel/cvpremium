@@ -102,11 +102,13 @@
         /* UPGRADE WATERMARK for free */
         .free-watermark { position: absolute; bottom: 20px; right: 20px; background: #111; color: #c9a96e; font-size: 10px; padding: 5px 10px; border-radius: 4px; font-family: 'DM Sans', sans-serif; font-weight: 600; z-index: 10; }
 
+        @page { size: A4; margin: 0; }
         @media print {
-            nav, .action-sidebar, .free-watermark { display: none !important; }
-            body { background: white; }
-            .preview-wrapper { padding: 0; }
-            .preview-frame { box-shadow: none; }
+            nav, .action-sidebar, .free-watermark, .upgrade-card { display: none !important; }
+            html, body { background: white !important; margin: 0 !important; padding: 0 !important; }
+            .preview-wrapper { padding: 0 !important; display: block !important; }
+            .cv-column { display: block !important; }
+            .preview-frame { box-shadow: none !important; width: 210mm !important; min-height: 297mm !important; margin: 0 !important; page-break-after: always; }
         }
     </style>
 </head>

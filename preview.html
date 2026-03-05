@@ -439,11 +439,12 @@
         .tmpl-13 .lang-sep { color: #666; }
         .tmpl-13 .ats-note { background: #f0fff0; border: 1px solid #22c55e; border-radius: 6px; padding: 10px 14px; margin-bottom: 20px; font-size: 11px; color: #166534; display: flex; gap: 8px; align-items: center; }
 
+        @page { size: A4; margin: 0; }
         @media print {
-            nav, .payment-overlay, .ats-note { display: none !important; }
-            body { background: white; }
-            .preview-wrapper { padding: 0; }
-            .preview-frame { box-shadow: none; }
+            nav, .payment-overlay, .ats-note, .action-sidebar { display: none !important; }
+            html, body { background: white !important; margin: 0 !important; padding: 0 !important; }
+            .preview-wrapper { padding: 0 !important; display: block !important; }
+            .preview-frame { box-shadow: none !important; width: 210mm !important; min-height: 297mm !important; margin: 0 !important; page-break-after: always; }
             .watermark { display: none !important; }
         }
     </style>
