@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preview CV Grátis - CVPremium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Calibri é fonte nativa do sistema -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>emailjs.init('hP_48MpVt8XwvoWC7');</script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'DM Sans', sans-serif; background: #0a0a0a; color: #fff; }
+        body { font-family: 'Calibri', 'Trebuchet MS', sans-serif; background: #0a0a0a; color: #fff; }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; background: rgba(10,10,10,0.95); border-bottom: 1px solid #222; position: fixed; width: 100%; top: 0; z-index: 100; }
         .logo { font-size: 24px; font-weight: 800; text-decoration: none; color: #fff; }
         .logo span { color: #c9a96e; }
         .nav-actions { display: flex; gap: 10px; align-items: center; }
         .btn-back { background: transparent; border: 1px solid #333; color: #888; padding: 9px 18px; border-radius: 8px; font-size: 13px; text-decoration: none; }
-        .btn-download-free { background: #fff; color: #000; border: none; padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+        .btn-download-free { background: #fff; color: #000; border: none; padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Calibri', 'Trebuchet MS', sans-serif; }
         .btn-upgrade-nav { background: #c9a96e; color: #000; border: none; padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none; white-space: nowrap; }
 
         .preview-wrapper { padding: 90px 20px 40px; display: flex; gap: 24px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
@@ -27,12 +27,12 @@
         .action-card { background: #111; border: 1px solid #222; border-radius: 14px; padding: 22px; }
         .action-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
         .action-card p { font-size: 12px; color: #666; margin-bottom: 16px; line-height: 1.6; }
-        .btn-dl-big { background: #fff; color: #000; border: none; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; margin-bottom: 10px; }
+        .btn-dl-big { background: #fff; color: #000; border: none; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; font-family: 'Calibri', 'Trebuchet MS', sans-serif; margin-bottom: 10px; }
         .btn-dl-big:hover { background: #e0e0e0; }
         .email-row { display: flex; gap: 7px; }
-        .email-row input { flex: 1; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 7px; padding: 10px 12px; color: #fff; font-size: 12px; outline: none; font-family: 'DM Sans', sans-serif; min-width: 0; }
+        .email-row input { flex: 1; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 7px; padding: 10px 12px; color: #fff; font-size: 12px; outline: none; font-family: 'Calibri', 'Trebuchet MS', sans-serif; min-width: 0; }
         .email-row input:focus { border-color: #555; }
-        .btn-send { background: #333; color: #fff; border: none; border-radius: 7px; padding: 10px 14px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
+        .btn-send { background: #333; color: #fff; border: none; border-radius: 7px; padding: 10px 14px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'Calibri', 'Trebuchet MS', sans-serif; }
         .email-ok { color: #22c55e; font-size: 11px; margin-top: 6px; display: none; }
 
         /* UPGRADE CARD */
@@ -42,12 +42,12 @@
         .upgrade-features { margin-bottom: 16px; }
         .upgrade-features div { font-size: 11px; color: #aaa; padding: 3px 0; display: flex; align-items: center; gap: 6px; }
         .upgrade-features div::before { content: '✦'; color: #c9a96e; font-size: 9px; }
-        .btn-upgrade-big { background: #c9a96e; color: #000; border: none; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; text-decoration: none; display: block; text-align: center; }
+        .btn-upgrade-big { background: #c9a96e; color: #000; border: none; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; font-family: 'Calibri', 'Trebuchet MS', sans-serif; text-decoration: none; display: block; text-align: center; }
         .btn-upgrade-big:hover { background: #e0c080; }
         .upgrade-price { text-align: center; font-size: 11px; color: #666; margin-top: 6px; }
 
         /* ===== TEMPLATE A: CLASSIC B&W ===== */
-        .free-a { font-family: Arial, Helvetica, sans-serif; color: #000; background: #fff; }
+        .free-a { font-family: 'Calibri', 'Trebuchet MS', sans-serif; color: #000; background: #fff; }
         .free-a .cv-header { padding: 40px 50px 24px; border-bottom: 2px solid #000; }
         .free-a .cv-name { font-size: 28px; font-weight: 700; color: #000; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
         .free-a .cv-title { font-size: 13px; color: #444; margin-bottom: 12px; }
@@ -73,9 +73,9 @@
         .free-a .lang-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; border-bottom: 1px solid #eee; color: #333; }
 
         /* ===== TEMPLATE B: MODERN B&W ===== */
-        .free-b { font-family: 'DM Sans', sans-serif; color: #000; background: #fff; }
+        .free-b { font-family: 'Calibri', 'Trebuchet MS', sans-serif; color: #000; background: #fff; }
         .free-b .cv-header { background: #111; color: #fff; padding: 38px 50px; }
-        .free-b .cv-name { font-size: 30px; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; font-family: 'Playfair Display', serif; }
+        .free-b .cv-name { font-size: 30px; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; font-family: 'Calibri', 'Trebuchet MS', sans-serif; }
         .free-b .cv-title { font-size: 12px; color: #aaa; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
         .free-b .cv-contacts { display: flex; flex-wrap: wrap; gap: 14px; }
         .free-b .cv-contact-item { font-size: 11px; color: #888; }
@@ -100,15 +100,13 @@
         .free-b .lang-level { color: #888; font-size: 10px; }
 
         /* UPGRADE WATERMARK for free */
-        .free-watermark { position: absolute; bottom: 20px; right: 20px; background: #111; color: #c9a96e; font-size: 10px; padding: 5px 10px; border-radius: 4px; font-family: 'DM Sans', sans-serif; font-weight: 600; z-index: 10; }
+        .free-watermark { position: absolute; bottom: 20px; right: 20px; background: #111; color: #c9a96e; font-size: 10px; padding: 5px 10px; border-radius: 4px; font-family: 'Calibri', 'Trebuchet MS', sans-serif; font-weight: 600; z-index: 10; }
 
-        @page { size: A4; margin: 0; }
         @media print {
-            nav, .action-sidebar, .free-watermark, .upgrade-card { display: none !important; }
-            html, body { background: white !important; margin: 0 !important; padding: 0 !important; }
-            .preview-wrapper { padding: 0 !important; display: block !important; }
-            .cv-column { display: block !important; }
-            .preview-frame { box-shadow: none !important; width: 210mm !important; min-height: 297mm !important; margin: 0 !important; page-break-after: always; }
+            nav, .action-sidebar, .free-watermark { display: none !important; }
+            body { background: white; }
+            .preview-wrapper { padding: 0; }
+            .preview-frame { box-shadow: none; }
         }
     </style>
 </head>
@@ -182,11 +180,17 @@
 
         function contacts(cls) {
             var items = [];
-            if (data.email) items.push(data.email);
-            if (data.phone) items.push(data.phone);
-            if (data.address) items.push(data.address);
-            if (data.linkedin) items.push(data.linkedin);
-            return items.map(function(i) { return '<div class="' + cls + '">' + esc(i) + '</div>'; }).join('');
+            if (data.email) items.push('<a href="mailto:' + esc(data.email) + '" style="color:inherit;text-decoration:none;">' + esc(data.email) + '</a>');
+            if (data.phone) items.push(esc(data.phone));
+            if (data.address) items.push(esc(data.address));
+            if (data.linkedin) {
+                var url = data.linkedin.trim();
+                if (!url.match(/^https?:\/\//)) url = 'https://' + url;
+                var label = url.replace(/^https?:\/\/(www\.)?linkedin\.com\//i, 'linkedin.com/');
+                if (label.length > 35) label = label.substring(0, 35) + '…';
+                items.push('<a href="' + url + '" target="_blank" style="color:inherit;text-decoration:underline;">' + label + '</a>');
+            }
+            return items.map(function(i) { return '<div class="' + cls + '">' + i + '</div>'; }).join('');
         }
 
         /* ===== TEMPLATE A ===== */
